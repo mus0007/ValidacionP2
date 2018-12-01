@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,7 +13,6 @@ namespace LibClases
 
         private int nextUser = 0;
         private int nextPoll = 0;
-        private int nextAnswer = 0;
         private List<Usuario> usuarios = new List<Usuario>();
         private List<Encuesta> encuestas = new List<Encuesta>();
         private List<Valoracion> valoraciones = new List<Valoracion>();
@@ -20,6 +20,7 @@ namespace LibClases
 
         public DataBase()
         {
+            /**
             Usuario u1 = new Usuario(++nextUser, "Usuario1@gmail.com", "usuario1");
             Usuario u2 = new Usuario(++nextUser, "Usuario2@gmail.com", "usuario2");
             Usuario u3 = new Usuario(++nextUser, "Usuario3@gmail.com", "usuario3");
@@ -33,6 +34,37 @@ namespace LibClases
 
             encuestas.Add(e1);
             encuestas.Add(e2);
+            **/
+            using (var reader = new StreamReader(@"C:\Users\mario\Desktop\Practica2\ValidacionP2\Ficheros\Usuarios.csv"))
+            {
+                while (!reader.EndOfStream)
+                {
+                    var line = reader.ReadLine();
+                    var values = line.Split(';');
+                    usuarios.Add(new Usuario(Int32.Parse(values[0]), values[1], values[2]));
+                }
+            }
+
+            using (var reader = new StreamReader(@"C:\Users\mario\Desktop\Practica2\ValidacionP2\Ficheros\Encuestas.csv"))
+            {
+                while (!reader.EndOfStream)
+                {
+                    var line = reader.ReadLine();
+                    var values = line.Split(';');
+                    encuestas.Add(new Encuesta(Int32.Parse(values[0]),values[1],values[2],Boolean.Parse(values[3])));      
+                }
+            }
+
+            using (var reader = new StreamReader(@"C:\Users\mario\Desktop\Practica2\ValidacionP2\Ficheros\Valoraciones.csv"))
+            {
+                while (!reader.EndOfStream)
+                {
+                    var line = reader.ReadLine();
+                    var values = line.Split(';');
+                    DateTime fecha = new DateTime(Int32.Parse(values[2]), Int32.Parse(values[3]), Int32.Parse(values[4]), Int32.Parse(values[5]), Int32.Parse(values[6]), Int32.Parse(values[7]));
+                    valoraciones.Add(new Valoracion(Int32.Parse(values[0]), values[1],fecha));
+                }
+            }
 
         }
 
