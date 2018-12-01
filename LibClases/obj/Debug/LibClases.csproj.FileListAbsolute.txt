@@ -24,3 +24,9 @@ C:\Users\mario\Desktop\ValadicacionP2\KnowOpinion\LibClases\obj\Debug\LibClases.
 C:\Users\mario\Desktop\ValadicacionP2\KnowOpinion\LibClases\obj\Debug\LibClases.csproj.CoreCompileInputs.cache
 C:\Users\mario\Desktop\ValadicacionP2\KnowOpinion\LibClases\obj\Debug\LibClases.dll
 C:\Users\mario\Desktop\ValadicacionP2\KnowOpinion\LibClases\obj\Debug\LibClases.pdb
+C:\Users\mario\Desktop\Practica2\ValidacionP2\LibClases\bin\Debug\LibClases.dll
+C:\Users\mario\Desktop\Practica2\ValidacionP2\LibClases\bin\Debug\LibClases.pdb
+C:\Users\mario\Desktop\Practica2\ValidacionP2\LibClases\obj\Debug\LibClases.csprojAssemblyReference.cache
+C:\Users\mario\Desktop\Practica2\ValidacionP2\LibClases\obj\Debug\LibClases.csproj.CoreCompileInputs.cache
+C:\Users\mario\Desktop\Practica2\ValidacionP2\LibClases\obj\Debug\LibClases.dll
+C:\Users\mario\Desktop\Practica2\ValidacionP2\LibClases\obj\Debug\LibClases.pdb

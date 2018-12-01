@@ -8,10 +8,19 @@ namespace LibClases
 {
      public class Valoracion
     {
-        public Valoracion(int valor, string opinion)
+        public Valoracion(int valor, string opinion, DateTime fecha)
         {
             this.valor = this.comprobarRangoValor(valor);
             this.opinion = opinion;
+            if(fecha <= DateTime.Now)
+            {
+                this.fecha = fecha;
+            }
+            else
+            {
+                this.fecha = DateTime.Now;
+            }
+            
         }
         private int valor;
         public int Valor
@@ -29,6 +38,13 @@ namespace LibClases
         {
             get { return opinion; }
             set { this.opinion = value; }
+        }
+
+        private DateTime fecha;
+        public DateTime Fecha
+        {
+            get { return fecha; }
+            set { this.fecha = value; }
         }
 
         private int comprobarRangoValor(int value)

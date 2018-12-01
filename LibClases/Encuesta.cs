@@ -55,7 +55,7 @@ namespace LibClases
         public void setOpinion(int valor, string opinion = null )
         {
             if(valor != 0){
-                this.opiniones.Add(new Valoracion(valor, opinion));
+                this.opiniones.Add(new Valoracion(valor, opinion,DateTime.Now));
             }
         }
 
