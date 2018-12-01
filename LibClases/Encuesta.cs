@@ -58,6 +58,13 @@ namespace LibClases
                 this.opiniones.Add(new Valoracion(valor, opinion,DateTime.Now));
             }
         }
+        public void setOpinionCSV(Valoracion valoracion)
+        {
+            if(valoracion.Valor != 0)
+            {
+                this.opiniones.Add(valoracion);
+            }
+        }
 
         public override bool Equals(object obj)
         {

@@ -103,6 +103,12 @@ namespace www
             }
             else
             {
+                Session["Encuesta"] = null;
+                Session["Valoracion"] = null;
+                Session["Comentario"] = null;
+                tdxcomentario.Text = "";
+                txtEncuestaSeleccionada.Text = "";
+                lblPregunta.Text = "";
                 lblError.Text = "ERROR: NO SE HA SELECCIONADO LA ENCUESTA Y/O LA VALORACIÓN";
             }
         }

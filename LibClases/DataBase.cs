@@ -66,6 +66,19 @@ namespace LibClases
                 }
             }
 
+            // Rellenamos las encuestas con 4 valaraciones cada una
+            int pos = 0;
+            int j = 1;
+            foreach(Encuesta e in encuestas)
+            {
+                for(int i = pos; i < 4*j; ++i)
+                {
+                    e.setOpinionCSV(valoraciones[i]);
+                    pos = i + 1;
+                }
+                ++j;
+            }
+
         }
 
         public int setNextPoll()
