@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LibClases;
+using System.Data;
 
 namespace LibClases
 {
@@ -17,6 +18,7 @@ namespace LibClases
         private List<Encuesta> encuestas = new List<Encuesta>();
         private List<Valoracion> valoraciones = new List<Valoracion>();
         private List<Encuesta> sugerencias = new List<Encuesta>();
+        private Estadisticas estadisticas = null;
 
         public DataBase()
         {
@@ -127,6 +129,19 @@ namespace LibClases
             return e.getOpiniones();
         }
 
+        public List<Valoracion> getValoraciones()
+        {
+            valoraciones = new List<Valoracion>();
+            foreach (Encuesta e in encuestas)
+            {
+                foreach(Valoracion val in getValoraciones(e))
+                {
+                    valoraciones.Add(val);
+                }
+            }
+            return valoraciones;
+        }
+
         public Usuario getUsuario(string cuenta)
         {
             foreach(Usuario u in usuarios)
@@ -206,6 +221,12 @@ namespace LibClases
         public List<Encuesta> getSugeridas()
         {
             return sugerencias;
+        }
+
+        public Estadisticas getEstadisticas()
+        {
+            estadisticas = new Estadisticas(this.getEncuestas(), this.getValoraciones());
+            return estadisticas;
         }
     }
 }
