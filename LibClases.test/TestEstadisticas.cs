@@ -181,5 +181,71 @@ namespace LibClases.test
             Assert.AreEqual(dataTable.Rows[10][0], "Encuesta2");
             Assert.AreEqual(dataTable.Rows[10][1], 2);
         }
+
+        //Sprint1 - media()
+        [TestMethod]
+        public void media()
+        {
+            DataBase db = new DataBase();
+
+            //Comprobamos que cargo los valores por defecto
+            Estadisticas estadisticas = db.getEstadisticas();
+            double media = estadisticas.media();
+            Assert.AreEqual(media,2.325);
+            //Comprobamos que si añadimos una nueva respuesta con un valor de 4 aumenta la media
+            db.getEncuesta("Encuesta1").setOpinion(4);
+            estadisticas = db.getEstadisticas();
+            media = estadisticas.media();
+            Assert.AreEqual(media, (double)97/(double)41);
+            //Comprobamos que al borrar una encuesta con respuestas se reduce la media
+            db.borrarEncuesta("Encuesta1");
+            estadisticas = db.getEstadisticas();
+            media = estadisticas.media();
+            Assert.AreEqual(media, (double)82/(double)36);
+        }
+
+        //Sprint1 - mediana()
+        [TestMethod]
+        public void mediana()
+        {
+            DataBase db = new DataBase();
+
+            //Comprobamos que cargo los valores por defecto
+            Estadisticas estadisticas = db.getEstadisticas();
+            double mediana = estadisticas.mediana();
+            Assert.AreEqual(mediana, 2);
+            //Comprobamos al añadir una nueva respuesta con un valor de 4
+            db.getEncuesta("Encuesta1").setOpinion(4);
+            estadisticas = db.getEstadisticas();
+            mediana = estadisticas.mediana();
+            Assert.AreEqual(mediana, 2);
+            //Comprobamos al borrar una encuesta con respuestas
+            db.borrarEncuesta("Encuesta1");
+            estadisticas = db.getEstadisticas();
+            mediana = estadisticas.mediana();
+            Assert.AreEqual(mediana, 2);
+        }
+
+        //Sprint1 - desviaciones()
+        [TestMethod]
+        public void desvest()
+        {
+            DataBase db = new DataBase();
+
+            //Comprobamos que cargo los valores por defecto
+            Estadisticas estadisticas = db.getEstadisticas();
+            double desviacion = estadisticas.desvest();
+            Assert.AreEqual(Math.Round(desviacion), Math.Round(1.02250321295966));
+            //Comprobamos al añadir una nueva respuesta con un valor de 4
+            db.getEncuesta("Encuesta1").setOpinion(4);
+            estadisticas = db.getEstadisticas();
+            desviacion = estadisticas.desvest();
+            Assert.AreEqual(Math.Round(desviacion), Math.Round(1.04297884832281));
+            //Comprobamos al borrar una encuesta con respuestas
+            db.borrarEncuesta("Encuesta1");
+            estadisticas = db.getEstadisticas();
+            desviacion = estadisticas.desvest();
+            Assert.AreEqual(Math.Round(desviacion), Math.Round(1.00316958005574));
+        }
     }
 }

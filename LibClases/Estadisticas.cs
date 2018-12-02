@@ -114,5 +114,39 @@ namespace LibClases
             dv.Sort = "Nota desc";
             return dv.ToTable();
         }
+
+        public double media()
+        {
+            double media = 0;
+
+            foreach(Valoracion v in valoraciones)
+            {
+                media += v.Valor;
+            }
+
+            return (double)media / (double)valoraciones.Count;
+        }
+
+        public double mediana()
+        {
+            List<double> aux = new List<double>();
+
+            foreach(Valoracion v in valoraciones)
+            {
+                aux.Add(v.Valor);
+            }
+            aux.Sort();
+            return aux[aux.Count / 2];
+        }
+
+        public double desvest()
+        {
+            double datos = 0;
+            foreach(Valoracion v in valoraciones)
+            {
+                datos += Math.Pow((double)v.Valor-(double)media(), 2);
+            }
+            return (double)Math.Sqrt(datos / (valoraciones.Count - 1));
+        }
     }
 }
