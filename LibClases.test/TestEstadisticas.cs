@@ -409,5 +409,68 @@ namespace LibClases.test
             Assert.AreEqual(dataTable.Rows[0][0], "8");
             Assert.AreEqual(dataTable.Rows[0][1], 5);
         }
+
+        //Sprint2 - mediaPorEncuesta()
+        [TestMethod]
+        public void mediaPorEncuesta()
+        {
+            DataBase db = new DataBase();
+
+            //Comprobamos que cargo los valores por defecto
+            Estadisticas estadisticas = db.getEstadisticas();
+            DataTable dataTable = estadisticas.mediaPorEncuesta();
+            Assert.AreEqual(dataTable.Rows[0][0],"Encuesta6");
+            Assert.AreEqual(dataTable.Rows[0][1], (double)15/(double)4);
+            //Comprobamos que si añadimos una nueva respuesta con un valor de 4 aumenta la media
+            db.getEncuesta("Encuesta6").setOpinion(4);
+            estadisticas = db.getEstadisticas();
+            dataTable = estadisticas.mediaPorEncuesta();
+            Assert.AreEqual(dataTable.Rows[0][0], "Encuesta6");
+            Assert.AreEqual(dataTable.Rows[0][1], (double)19 / (double)5);
+            //Comprobamos que al borrar una encuesta con respuestas se reduce la media
+            db.borrarEncuesta("Encuesta6");
+            estadisticas = db.getEstadisticas();
+            dataTable = estadisticas.mediaPorEncuesta();
+            Assert.AreEqual(dataTable.Rows[0][0], "Encuesta1");
+            Assert.AreEqual(dataTable.Rows[0][1], (double)11 / (double)4);
+        }
+
+        //Sprint2 - medianaPorEncuesta()
+        [TestMethod]
+        public void medianaPorEncuesta()
+        {
+            DataBase db = new DataBase();
+
+            //Comprobamos que cargo los valores por defecto
+            Estadisticas estadisticas = db.getEstadisticas();
+            DataTable dataTable = estadisticas.medianaPorEncuesta();
+            Assert.AreEqual(dataTable.Rows[0][0], "Encuesta6");
+            Assert.AreEqual(dataTable.Rows[0][1], 4);
+            //Comprobamos que si añadimos una nueva respuesta con un valor de 4 aumenta la media
+            db.getEncuesta("Encuesta1").setOpinion(4);
+            db.getEncuesta("Encuesta1").setOpinion(4);
+            estadisticas = db.getEstadisticas();
+            dataTable = estadisticas.medianaPorEncuesta();
+            Assert.AreEqual(dataTable.Rows[0][0], "Encuesta1");
+            Assert.AreEqual(dataTable.Rows[0][1], 4);
+            //Comprobamos que al borrar una encuesta con respuestas se reduce la media
+            db.borrarEncuesta("Encuesta1");
+            estadisticas = db.getEstadisticas();
+            dataTable = estadisticas.medianaPorEncuesta();
+            Assert.AreEqual(dataTable.Rows[0][0], "Encuesta6");
+            Assert.AreEqual(dataTable.Rows[0][1], 4);
+        }
+
+        //Sprint2 - desvEstPorEncuesta()
+        [TestMethod]
+        public void desvEstPorEncuesta()
+        {
+            DataBase db = new DataBase();
+
+            //Comprobamos que cargo los valores por defecto
+            Estadisticas estadisticas = db.getEstadisticas();
+            DataTable dataTable = estadisticas.desvEstPorEncuesta();
+            Assert.AreEqual(dataTable.Rows[0][0], "Encuesta1");
+        }
     }
 }

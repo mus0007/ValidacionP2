@@ -402,5 +402,83 @@ namespace LibClases
             dv.Sort = "Numero desc";
             return dv.ToTable();
         }
+
+        public DataTable mediaPorEncuesta()
+        {
+            DataTable dataTable = new DataTable();
+
+            dataTable.Columns.Add("Encuesta", typeof(string));
+            dataTable.Columns.Add("Media", typeof(double));
+
+            foreach(Encuesta e in encuestas)
+            {
+                double media = 0;
+                foreach(Valoracion v in e.getOpiniones())
+                {
+                    media += v.Valor;
+                }
+                dataTable.Rows.Add(e.Nombre, (double)media / (double)e.getOpiniones().Count);
+            }
+            DataView dv = dataTable.DefaultView;
+            dv.Sort = "Media desc";
+            return dv.ToTable();
+        }
+
+        public DataTable medianaPorEncuesta()
+        {
+            DataTable dataTable = new DataTable();
+            
+            dataTable.Columns.Add("Encuesta", typeof(string));
+            dataTable.Columns.Add("Mediana", typeof(int));
+
+            foreach(Encuesta e in encuestas)
+            {
+                List<double> aux = new List<double>();
+                foreach (Valoracion v in e.getOpiniones())
+                {
+                    aux.Add(v.Valor);
+                }
+                aux.Sort();
+                dataTable.Rows.Add(e.Nombre, aux[aux.Count / 2]);
+            }
+            DataView dv = dataTable.DefaultView;
+            dv.Sort = "Mediana desc";
+            return dv.ToTable();
+        }
+
+        public DataTable desvEstPorEncuesta()
+        {
+            DataTable dataTable = new DataTable();
+            List<double> medias = new List<double>();
+            double media = 0;
+            int indice = -1;
+
+            dataTable.Columns.Add("Encuesta", typeof(string));
+            dataTable.Columns.Add("Desviacion", typeof(int));
+
+            foreach(Encuesta e in encuestas)
+            {
+                media = 0;
+                foreach(Valoracion v in e.getOpiniones())
+                {
+                    media += v.Valor;
+                }
+                medias.Add((double)media / (double)e.getOpiniones().Count);
+            }
+
+            foreach (Encuesta e in encuestas)
+            {
+                double datos = 0;
+                ++indice;
+                foreach (Valoracion v in e.getOpiniones())
+                {
+                    datos += Math.Pow((double)v.Valor - (double)medias[indice], 2);
+                }
+                dataTable.Rows.Add(e.Nombre, (double)Math.Sqrt(datos / e.getOpiniones().Count));
+            }
+            DataView dv = dataTable.DefaultView;
+            dv.Sort = "Desviacion desc";
+            return dv.ToTable();
+        }
     }
 }
