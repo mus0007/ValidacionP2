@@ -64,6 +64,57 @@ namespace LibClases.test
             //Comprobamos que cargo los valores por defecto
             Estadisticas estadisticas = db.getEstadisticas();
             DataTable dataTable = estadisticas.numeroRespuestas();
+            Assert.AreEqual(dataTable.Rows[0][0], "Encuesta1");
+            Assert.AreEqual(dataTable.Rows[0][1], 4);
+            Assert.AreEqual(dataTable.Rows[9][0], "Encuesta10");
+            Assert.AreEqual(dataTable.Rows[9][1], 4);
+            //Comprobamos que al añadir una nueva opinión se cambia
+            db.getEncuesta("Encuesta1").setOpinion(3);
+            estadisticas = db.getEstadisticas(); ;
+            dataTable = estadisticas.numeroRespuestas();
+            Assert.AreEqual(dataTable.Rows[0][0], "Encuesta1");
+            Assert.AreEqual(dataTable.Rows[0][1], 5);
+            Assert.AreEqual(dataTable.Rows[9][0], "Encuesta10");
+            Assert.AreEqual(dataTable.Rows[9][1], 4);
+            //Comprobamos que al borrar una encuesta ya no existe ni ella ni sus opniones
+            db.borrarEncuesta("Encuesta1");
+            estadisticas = db.getEstadisticas(); ;
+            dataTable = estadisticas.numeroRespuestas();
+            Assert.AreEqual(dataTable.Rows[0][0], "Encuesta2");
+            Assert.AreEqual(dataTable.Rows[0][1], 4);
+            Assert.AreEqual(dataTable.Rows[8][0], "Encuesta10");
+            Assert.AreEqual(dataTable.Rows[8][1], 4);
+            //Comprobamos que al añadir una encuesta sus opniones son 0
+            db.addEncuesta("Encuesta1", "Encuesta1descripción");
+            estadisticas = db.getEstadisticas(); ;
+            dataTable = estadisticas.numeroRespuestas();
+            Assert.AreEqual(dataTable.Rows[0][0], "Encuesta2");
+            Assert.AreEqual(dataTable.Rows[0][1], 4);
+            Assert.AreEqual(dataTable.Rows[9][0], "Encuesta1");
+            Assert.AreEqual(dataTable.Rows[9][1], 0);
+        }
+
+        //Sprint1 - numeroEncuestas()
+        [TestMethod]
+        public void numeroEncuestas()
+        {
+            DataBase db = new DataBase();
+
+            //Comprobamos que cargo los valores por defecto
+            Estadisticas estadisticas = db.getEstadisticas();
+            Int16 numero = estadisticas.numeroEncuestas();
+            Assert.AreEqual(numero, 10);
+            //Comprobamos que si borro una encuesta el número se reduce
+            db.borrarEncuesta("Encuesta1");
+            estadisticas = db.getEstadisticas();
+            numero = estadisticas.numeroEncuestas();
+            Assert.AreEqual(numero, 9);
+            //Comprobamos que al añadir una encuesta sin opniones el número sigue siendo 9
+            db.addEncuesta("Encuesta1","Encuesta1descripción");
+            estadisticas = db.getEstadisticas();
+            numero = estadisticas.numeroEncuestas();
+            Assert.AreEqual(numero, 9);
+
         }
     }
 }

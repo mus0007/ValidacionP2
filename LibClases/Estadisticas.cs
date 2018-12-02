@@ -44,5 +44,34 @@ namespace LibClases
 
             return dataTable;
         }
+
+        public DataTable numeroRespuestas()
+        {
+            DataTable dataTable = new DataTable();
+
+            dataTable.Columns.Add("Encuesta", typeof(string));
+            dataTable.Columns.Add("Numero", typeof(int));
+
+            foreach(Encuesta e in encuestas)
+            {
+                dataTable.Rows.Add(e.Nombre, e.getOpiniones().Count);
+            }
+
+            return dataTable;
+        }
+
+        public short numeroEncuestas()
+        {
+            short numero = 0;
+
+            foreach(Encuesta e in encuestas)
+            {
+                if(e.getOpiniones().Count != 0)
+                {
+                    ++numero;
+                }
+            }
+            return numero;
+        }
     }
 }
