@@ -116,5 +116,70 @@ namespace LibClases.test
             Assert.AreEqual(numero, 9);
 
         }
+
+        //Sprint1 - rankingEncuestasPorRespuestas()
+        [TestMethod]
+        public void rankingEncuestasPorRespuestas()
+        {
+            DataBase db = new DataBase();
+
+            //Comprobamos que cargo los valores por defecto
+            Estadisticas estadisticas = db.getEstadisticas();
+            DataTable dataTable = estadisticas.rankingEncuestasPorRespuestas();
+            Assert.AreEqual(dataTable.Rows[0][0], "Encuesta1");
+            Assert.AreEqual(dataTable.Rows[0][1], 4);
+            Assert.AreEqual(dataTable.Rows[9][0], "Encuesta10");
+            Assert.AreEqual(dataTable.Rows[9][1], 4);
+            //Comprobamos que al añadir una encuesta sin opniones está en la última posición
+            db.addEncuesta("Encuesta11", "Encuesta11descripción");
+            estadisticas = db.getEstadisticas();
+            dataTable = estadisticas.rankingEncuestasPorRespuestas();
+            Assert.AreEqual(dataTable.Rows[0][0], "Encuesta1");
+            Assert.AreEqual(dataTable.Rows[0][1], 4);
+            Assert.AreEqual(dataTable.Rows[10][0], "Encuesta11");
+            Assert.AreEqual(dataTable.Rows[10][1], 0);
+            //Comprobamos que al añadir 5 opniones pasa a la primera posición
+            db.getEncuesta("Encuesta11").setOpinion(3);
+            db.getEncuesta("Encuesta11").setOpinion(2);
+            db.getEncuesta("Encuesta11").setOpinion(1);
+            db.getEncuesta("Encuesta11").setOpinion(4);
+            db.getEncuesta("Encuesta11").setOpinion(3);
+            estadisticas = db.getEstadisticas();
+            dataTable = estadisticas.rankingEncuestasPorRespuestas();
+            Assert.AreEqual(dataTable.Rows[0][0], "Encuesta11");
+            Assert.AreEqual(dataTable.Rows[0][1], 5);
+        }
+
+        //Sprint1 - rankingEncuestasPorValoración()
+        [TestMethod]
+        public void rankingEncuestasPorValoracion()
+        {
+            DataBase db = new DataBase();
+
+            //Comprobamos que cargo los valores por defecto
+            Estadisticas estadisticas = db.getEstadisticas();
+            DataTable dataTable = estadisticas.rankingEncuestasPorValoracion();
+            Assert.AreEqual(dataTable.Rows[0][0], "Encuesta1");
+            Assert.AreEqual(dataTable.Rows[0][1], 4);
+            Assert.AreEqual(dataTable.Rows[9][0], "Encuesta2");
+            Assert.AreEqual(dataTable.Rows[9][1], 2);
+            //Comprobamos que añadiendo una nueva encuesta con valor 1, está la última
+            db.addEncuesta("Encuesta11", "Encuesta11descripción");
+            db.getEncuesta("Encuesta11").setOpinion(1);
+            estadisticas = db.getEstadisticas();
+            dataTable = estadisticas.rankingEncuestasPorValoracion();
+            Assert.AreEqual(dataTable.Rows[0][0], "Encuesta1");
+            Assert.AreEqual(dataTable.Rows[0][1], 4);
+            Assert.AreEqual(dataTable.Rows[10][0], "Encuesta11");
+            Assert.AreEqual(dataTable.Rows[10][1], 1);
+            //Comprobamos que añadiendo la encuesta anterior con valor 4
+            db.getEncuesta("Encuesta11").setOpinion(4);
+            estadisticas = db.getEstadisticas();
+            dataTable = estadisticas.rankingEncuestasPorValoracion();
+            Assert.AreEqual(dataTable.Rows[4][0], "Encuesta11");
+            Assert.AreEqual(dataTable.Rows[4][1], 4);
+            Assert.AreEqual(dataTable.Rows[10][0], "Encuesta2");
+            Assert.AreEqual(dataTable.Rows[10][1], 2);
+        }
     }
 }

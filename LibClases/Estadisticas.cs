@@ -73,5 +73,46 @@ namespace LibClases
             }
             return numero;
         }
+
+        public DataTable rankingEncuestasPorRespuestas()
+        {
+            DataTable dataTable = new DataTable();
+            dataTable.Columns.Add("Encuesta", typeof(string));
+            dataTable.Columns.Add("Numero", typeof(int));
+
+            foreach (Encuesta e in encuestas)
+            {
+                dataTable.Rows.Add(e.Nombre, e.getOpiniones().Count);
+            }
+
+            DataView dv = dataTable.DefaultView;
+            dv.Sort = "Numero desc";
+            return dv.ToTable();
+        }
+
+        public DataTable rankingEncuestasPorValoracion()
+        {
+            DataTable dataTable = new DataTable();
+            int nota_max = 1;
+            dataTable.Columns.Add("Encuesta", typeof(string));
+            dataTable.Columns.Add("Nota", typeof(int));
+
+            foreach (Encuesta e in encuestas)
+            {
+                nota_max = 1;
+                foreach (Valoracion v in e.getOpiniones())
+                {
+                    if(nota_max < v.Valor)
+                    {
+                        nota_max = v.Valor;
+                    }
+                }
+                dataTable.Rows.Add(e.Nombre, nota_max);
+            }
+
+            DataView dv = dataTable.DefaultView;
+            dv.Sort = "Nota desc";
+            return dv.ToTable();
+        }
     }
 }
