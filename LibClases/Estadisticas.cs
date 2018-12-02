@@ -148,5 +148,61 @@ namespace LibClases
             }
             return (double)Math.Sqrt(datos / (valoraciones.Count - 1));
         }
+
+        public DataTable numRespRangosPorEncuesta(string nombre)
+        {
+            DataTable dataTable = new DataTable();
+            int minimo = 0;
+            int maximo = 0;
+
+            dataTable.Columns.Add("Encuesta", typeof(string));
+            dataTable.Columns.Add("Minimo", typeof(int));
+            dataTable.Columns.Add("Maximo", typeof(int));
+
+            foreach(Encuesta e in encuestas)
+            {
+                if(e.Nombre == nombre && e.getOpiniones().Count != 0)
+                {
+                    minimo = 5;
+                    maximo = 0;
+                    foreach(Valoracion v in e.getOpiniones())
+                    {
+                        if(maximo < v.Valor)
+                        {
+                            maximo = v.Valor;
+                        }
+                        if(minimo > v.Valor)
+                        {
+                            minimo = v.Valor;
+                        }
+                    }
+                    dataTable.Rows.Add(e.Nombre, minimo, maximo);
+                    break;
+                }
+                if(e.Nombre == nombre && e.getOpiniones().Count == 0)
+                {
+                    dataTable.Rows.Add(e.Nombre, 0, 0);
+                    break;
+                }
+            }
+            return dataTable;
+        }
+
+        public DataTable numRespRangos()
+        {
+            DataTable dataTable = new DataTable();
+
+            dataTable.Columns.Add("Encuesta", typeof(string));
+            dataTable.Columns.Add("Minimo", typeof(int));
+            dataTable.Columns.Add("Maximo", typeof(int));
+
+            foreach (Encuesta e in encuestas)
+            {
+                DataTable aux = numRespRangosPorEncuesta(e.Nombre);
+                dataTable.Rows.Add(aux.Rows[0][0], aux.Rows[0][1], aux.Rows[0][2]);
+            }
+
+            return dataTable;
+        }
     }
 }

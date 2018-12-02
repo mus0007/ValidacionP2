@@ -247,5 +247,75 @@ namespace LibClases.test
             desviacion = estadisticas.desvest();
             Assert.AreEqual(Math.Round(desviacion), Math.Round(1.00316958005574));
         }
+
+        //Sprint1 - numRespRangosPorEncuesta()
+        [TestMethod]
+        public void numRespRangosPorEncuesta()
+        {
+            DataBase db = new DataBase();
+
+            //Comprobamos que cargo los valores por defecto
+            Estadisticas estadisticas = db.getEstadisticas();
+            DataTable dataTable = estadisticas.numRespRangosPorEncuesta("Encuesta1");
+            Assert.AreEqual(dataTable.Rows[0][0], "Encuesta1");
+            Assert.AreEqual(dataTable.Rows[0][1], 1);
+            Assert.AreEqual(dataTable.Rows[0][2], 4);
+            //Comprobamos que si añadimos una encuesta con dos opniones, son correctos
+            db.addEncuesta("Encuesta11", "Encuesta11descripción");
+            db.getEncuesta("Encuesta11").setOpinion(2);
+            db.getEncuesta("Encuesta11").setOpinion(3);
+            estadisticas = db.getEstadisticas();
+            dataTable = estadisticas.numRespRangosPorEncuesta("Encuesta11");
+            Assert.AreEqual(dataTable.Rows[0][0], "Encuesta11");
+            Assert.AreEqual(dataTable.Rows[0][1], 2);
+            Assert.AreEqual(dataTable.Rows[0][2], 3);
+            //Comprobamos que si una encuesta no tiene opniones tiene valores 0
+            db.addEncuesta("Encuesta12", "Encuesta12descripción");
+            estadisticas = db.getEstadisticas();
+            dataTable = estadisticas.numRespRangosPorEncuesta("Encuesta12");
+            Assert.AreEqual(dataTable.Rows[0][0], "Encuesta12");
+            Assert.AreEqual(dataTable.Rows[0][1], 0);
+            Assert.AreEqual(dataTable.Rows[0][2], 0);
+        }
+
+        //Sprint1 - numRespRangos()
+        [TestMethod]
+        public void numRespRangos()
+        {
+            DataBase db = new DataBase();
+
+            //Comprobamos que cargo los valores por defecto
+            Estadisticas estadisticas = db.getEstadisticas();
+            DataTable dataTable = estadisticas.numRespRangos();
+            Assert.AreEqual(dataTable.Rows[0][0], "Encuesta1");
+            Assert.AreEqual(dataTable.Rows[0][1], 1);
+            Assert.AreEqual(dataTable.Rows[0][2], 4);
+            Assert.AreEqual(dataTable.Rows[9][0], "Encuesta10");
+            Assert.AreEqual(dataTable.Rows[9][1], 1);
+            Assert.AreEqual(dataTable.Rows[9][2], 3);
+            //Comprobamos que si añadimos una encuesta con dos opiniones, son correctos
+            db.addEncuesta("Encuesta11", "Encuesta11descripción");
+            db.getEncuesta("Encuesta11").setOpinion(2);
+            db.getEncuesta("Encuesta11").setOpinion(3);
+            estadisticas = db.getEstadisticas();
+            dataTable = estadisticas.numRespRangos();
+            Assert.AreEqual(dataTable.Rows[0][0], "Encuesta1");
+            Assert.AreEqual(dataTable.Rows[0][1], 1);
+            Assert.AreEqual(dataTable.Rows[0][2], 4);
+            Assert.AreEqual(dataTable.Rows[10][0], "Encuesta11");
+            Assert.AreEqual(dataTable.Rows[10][1], 2);
+            Assert.AreEqual(dataTable.Rows[10][2], 3);
+
+            //Comprobamos que si una encuesta no tiene opniones tiene valores 0
+            db.addEncuesta("Encuesta12", "Encuesta12descripción");
+            estadisticas = db.getEstadisticas();
+            dataTable = estadisticas.numRespRangos();
+            Assert.AreEqual(dataTable.Rows[0][0], "Encuesta1");
+            Assert.AreEqual(dataTable.Rows[0][1], 1);
+            Assert.AreEqual(dataTable.Rows[0][2], 4);
+            Assert.AreEqual(dataTable.Rows[11][0], "Encuesta12");
+            Assert.AreEqual(dataTable.Rows[11][1], 0);
+            Assert.AreEqual(dataTable.Rows[11][2], 0);
+        }
     }
 }
