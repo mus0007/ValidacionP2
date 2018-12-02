@@ -317,5 +317,97 @@ namespace LibClases.test
             Assert.AreEqual(dataTable.Rows[11][1], 0);
             Assert.AreEqual(dataTable.Rows[11][2], 0);
         }
+
+        //Sprint2 - respuestasPorAnios()
+        [TestMethod]
+        public void respuestasPorAnios()
+        {
+            DataBase db = new DataBase();
+
+            //Comprobamos que cargo los valores por defecto
+            Estadisticas estadisticas = db.getEstadisticas();
+            DataTable dataTable = estadisticas.respuestasPorAnios();
+            Assert.AreEqual(dataTable.Rows[0][0], "2018");
+            Assert.AreEqual(dataTable.Rows[0][1], 30);
+            Assert.AreEqual(dataTable.Rows[1][0], "2017");
+            Assert.AreEqual(dataTable.Rows[1][1], 10);
+            //Comprobamos que si añadimos una resuesta del 2016 nos lo contabiliza
+            Valoracion valoracion = new Valoracion(4, "muy buena", new DateTime(2016, 12, 12, 14, 30, 15));
+            db.getEncuesta("Encuesta1").setOpinionCSV(valoracion);
+            estadisticas = db.getEstadisticas();
+            dataTable = estadisticas.respuestasPorAnios();
+            Assert.AreEqual(dataTable.Rows[0][0], "2018");
+            Assert.AreEqual(dataTable.Rows[0][1], 30);
+            Assert.AreEqual(dataTable.Rows[1][0], "2017");
+            Assert.AreEqual(dataTable.Rows[1][1], 10);
+            Assert.AreEqual(dataTable.Rows[2][0], "2016");
+            Assert.AreEqual(dataTable.Rows[2][1], 1);
+
+        }
+
+        //Sprint2 - respuestasPorMeses()
+        [TestMethod]
+        public void respuestasPorMeses()
+        {
+            DataBase db = new DataBase();
+
+            //Comprobamos que cargo los valores por defecto
+            Estadisticas estadisticas = db.getEstadisticas();
+            DataTable dataTable = estadisticas.respuestasPorMeses();
+            Assert.AreEqual(dataTable.Rows[0][0], "Febrero");
+            Assert.AreEqual(dataTable.Rows[0][1], 7);
+            Assert.AreEqual(dataTable.Rows[8][0],"Diciembre");
+            Assert.AreEqual(dataTable.Rows[8][1], 1);
+            //Comprobamos que si añadimos una resuesta de diciembre nos los contabiliza
+            Valoracion valoracion = new Valoracion(4, "muy buena", new DateTime(2016, 12, 12, 14, 30, 15));
+            db.getEncuesta("Encuesta1").setOpinionCSV(valoracion);
+            estadisticas = db.getEstadisticas();
+            dataTable = estadisticas.respuestasPorMeses();
+            Assert.AreEqual(dataTable.Rows[0][0], "Febrero");
+            Assert.AreEqual(dataTable.Rows[0][1], 7);
+            Assert.AreEqual(dataTable.Rows[8][0], "Diciembre");
+            Assert.AreEqual(dataTable.Rows[8][1], 2);
+
+        }
+
+        //Sprint2 - respuestasPorSemanas()
+        [TestMethod]
+        public void respuestasPorSemanas()
+        {
+            DataBase db = new DataBase();
+
+            //Comprobamos que cargo los valores por defecto
+            Estadisticas estadisticas = db.getEstadisticas();
+            DataTable dataTable = estadisticas.respuestasPorSemanas();
+            Assert.AreEqual(dataTable.Rows[0][0], "Domingo");
+            Assert.AreEqual(dataTable.Rows[0][1], 11);
+            //Comprobamos que si añadimos una resuesta de lunes nos los contabiliza
+            Valoracion valoracion = new Valoracion(4, "muy buena", new DateTime(2018, 12, 2, 14, 30, 15));
+            db.getEncuesta("Encuesta1").setOpinionCSV(valoracion);
+            estadisticas = db.getEstadisticas();
+            dataTable = estadisticas.respuestasPorSemanas();
+            Assert.AreEqual(dataTable.Rows[0][0], "Domingo");
+            Assert.AreEqual(dataTable.Rows[0][1], 12);
+        }
+
+        //Sprint2 - respuestasPorHoras()
+        [TestMethod]
+        public void respuestasPorHoras()
+        {
+            DataBase db = new DataBase();
+
+            //Comprobamos que cargo los valores por defecto
+            Estadisticas estadisticas = db.getEstadisticas();
+            DataTable dataTable = estadisticas.respuestasPorHoras();
+            Assert.AreEqual(dataTable.Rows[0][0], "8");
+            Assert.AreEqual(dataTable.Rows[0][1], 4);
+            //Comprobamos que si añadimos una resuesta de lunes nos los contabiliza
+            Valoracion valoracion = new Valoracion(4, "muy buena", new DateTime(2018, 12, 2, 8, 30, 15));
+            db.getEncuesta("Encuesta1").setOpinionCSV(valoracion);
+            estadisticas = db.getEstadisticas();
+            dataTable = estadisticas.respuestasPorHoras();
+            Assert.AreEqual(dataTable.Rows[0][0], "8");
+            Assert.AreEqual(dataTable.Rows[0][1], 5);
+        }
     }
 }

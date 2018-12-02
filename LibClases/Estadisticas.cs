@@ -204,5 +204,203 @@ namespace LibClases
 
             return dataTable;
         }
+
+        public DataTable respuestasPorAnios()
+        {
+            DataTable dataTable = new DataTable();
+            Dictionary<string, int> diccionario = new Dictionary<string, int>();
+
+            dataTable.Columns.Add("Anio", typeof(string));
+            dataTable.Columns.Add("Numero", typeof(int));
+
+            foreach(Valoracion v in valoraciones)
+            {
+                string clave = v.Fecha.Year.ToString();
+                if (diccionario.ContainsKey(clave))
+                {
+                    int valor = diccionario[clave];
+                    diccionario[clave] = ++valor;
+                }
+                else
+                {
+                    diccionario.Add(clave, 1);
+                }
+            }
+            foreach(string clave in diccionario.Keys)
+            {
+                dataTable.Rows.Add(clave, diccionario[clave]);
+            }
+            DataView dv = dataTable.DefaultView;
+            dv.Sort = "Numero desc";
+            return dv.ToTable();
+        }
+
+        public string mes(string numero)
+        {
+            if (numero == "1")
+            {
+                return "Enero";
+            }
+            if (numero == "2")
+            {
+                return "Febrero";
+            }
+            if (numero == "3")
+            {
+                return "Marzo";
+            }
+            if (numero == "4")
+            {
+                return "Abril";
+            }
+            if (numero == "5")
+            {
+                return "Mayo";
+            }
+            if (numero == "6")
+            {
+                return "Junio";
+            }
+            if (numero == "7")
+            {
+                return "Julio";
+            }
+            if (numero == "8")
+            {
+                return "Agosto";
+            }
+            if (numero == "9")
+            {
+                return "Septiembre";
+            }
+            if (numero == "10")
+            {
+                return "Octubre";
+            }
+            if (numero == "11")
+            {
+                return "Noviembre";
+            }
+            return "Diciembre";
+        }
+
+        public DataTable respuestasPorMeses()
+        {
+            DataTable dataTable = new DataTable();
+            Dictionary<string, int> diccionario = new Dictionary<string, int>();
+
+            dataTable.Columns.Add("Mes", typeof(string));
+            dataTable.Columns.Add("Numero", typeof(int));
+
+            foreach(Valoracion v in valoraciones)
+            {
+                string clave = mes(v.Fecha.Month.ToString());
+                if (diccionario.ContainsKey(clave))
+                {
+                    int valor = diccionario[clave];
+                    diccionario[clave] = ++valor;
+                }
+                else
+                {
+                    diccionario.Add(clave, 1);
+                }
+            }
+            foreach(string clave in diccionario.Keys)
+            {
+                dataTable.Rows.Add(clave, diccionario[clave]);
+            }
+            DataView dv = dataTable.DefaultView;
+            dv.Sort = "Numero desc";
+            return dv.ToTable();
+        }
+
+        public string dias(string dia)
+        {
+            if (dia == "Monday")
+            {
+                return "Lunes";
+            }
+            if (dia == "Tuesday")
+            {
+                return "Martes";
+            }
+            if (dia == "Wednesday")
+            {
+                return "Miercoles";
+            }
+            if (dia == "Thursday")
+            {
+                return "Jueves";
+            }
+            if (dia == "Friday")
+            {
+                return "Viernes";
+            }
+            if (dia == "Saturday")
+            {
+                return "Sabado";
+            }
+            return "Domingo";
+        }
+
+        public DataTable respuestasPorSemanas()
+        {
+            DataTable dataTable = new DataTable();
+            Dictionary<string, int> diccionario = new Dictionary<string, int>();
+
+            dataTable.Columns.Add("Semana", typeof(string));
+            dataTable.Columns.Add("Numero", typeof(int));
+
+            foreach (Valoracion v in valoraciones)
+            {
+                string clave = dias(v.Fecha.DayOfWeek.ToString());
+                if (diccionario.ContainsKey(clave))
+                {
+                    int valor = diccionario[clave];
+                    diccionario[clave] = ++valor;
+                }
+                else
+                {
+                    diccionario.Add(clave, 1);
+                }
+            }
+            foreach (string clave in diccionario.Keys)
+            {
+                dataTable.Rows.Add(clave, diccionario[clave]);
+            }
+            DataView dv = dataTable.DefaultView;
+            dv.Sort = "Numero desc";
+            return dv.ToTable();
+        }
+
+        public DataTable respuestasPorHoras()
+        {
+            DataTable dataTable = new DataTable();
+            Dictionary<string, int> diccionario = new Dictionary<string, int>();
+
+            dataTable.Columns.Add("Hora", typeof(string));
+            dataTable.Columns.Add("Numero", typeof(int));
+
+            foreach (Valoracion v in valoraciones)
+            {
+                string clave = v.Fecha.Hour.ToString();
+                if (diccionario.ContainsKey(clave))
+                {
+                    int valor = diccionario[clave];
+                    diccionario[clave] = ++valor;
+                }
+                else
+                {
+                    diccionario.Add(clave, 1);
+                }
+            }
+            foreach (string clave in diccionario.Keys)
+            {
+                dataTable.Rows.Add(clave, diccionario[clave]);
+            }
+            DataView dv = dataTable.DefaultView;
+            dv.Sort = "Numero desc";
+            return dv.ToTable();
+        }
     }
 }
