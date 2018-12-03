@@ -133,10 +133,11 @@ namespace LibClases
 
             foreach(Valoracion v in valoraciones)
             {
-                aux.Add(v.Valor);
+                aux.Add((double)v.Valor);
             }
             aux.Sort();
-            return aux[aux.Count / 2];
+            int indice = (int)Math.Round((double)aux.Count / (double)2) - 1;
+            return aux[indice];
         }
 
         public double desvest()
@@ -439,7 +440,8 @@ namespace LibClases
                     aux.Add(v.Valor);
                 }
                 aux.Sort();
-                dataTable.Rows.Add(e.Nombre, aux[aux.Count / 2]);
+                int indice = (int)Math.Round((double)aux.Count / (double)2) - 1;
+                dataTable.Rows.Add(e.Nombre, aux[indice]);
             }
             DataView dv = dataTable.DefaultView;
             dv.Sort = "Mediana desc";

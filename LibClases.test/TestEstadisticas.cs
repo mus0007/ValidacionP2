@@ -380,14 +380,14 @@ namespace LibClases.test
             Estadisticas estadisticas = db.getEstadisticas();
             DataTable dataTable = estadisticas.respuestasPorSemanas();
             Assert.AreEqual(dataTable.Rows[0][0], "Domingo");
-            Assert.AreEqual(dataTable.Rows[0][1], 11);
+            Assert.AreEqual(dataTable.Rows[0][1], 10);
             //Comprobamos que si añadimos una resuesta de lunes nos los contabiliza
             Valoracion valoracion = new Valoracion(4, "muy buena", new DateTime(2018, 12, 2, 14, 30, 15));
             db.getEncuesta("Encuesta1").setOpinionCSV(valoracion);
             estadisticas = db.getEstadisticas();
             dataTable = estadisticas.respuestasPorSemanas();
             Assert.AreEqual(dataTable.Rows[0][0], "Domingo");
-            Assert.AreEqual(dataTable.Rows[0][1], 12);
+            Assert.AreEqual(dataTable.Rows[0][1], 11);
         }
 
         //Sprint2 - respuestasPorHoras()
@@ -447,6 +447,7 @@ namespace LibClases.test
             Assert.AreEqual(dataTable.Rows[0][0], "Encuesta6");
             Assert.AreEqual(dataTable.Rows[0][1], 4);
             //Comprobamos que si añadimos una nueva respuesta con un valor de 4 aumenta la media
+            db.getEncuesta("Encuesta1").setOpinion(4);
             db.getEncuesta("Encuesta1").setOpinion(4);
             db.getEncuesta("Encuesta1").setOpinion(4);
             estadisticas = db.getEstadisticas();
