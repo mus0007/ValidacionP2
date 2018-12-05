@@ -116,11 +116,20 @@ namespace www
         protected void btnSeleccionar_Click(object sender, EventArgs e)
         {
             encuestaActiva = db.getEncuesta(txtEncuestaSeleccionada.Text);
+            
             if (encuestaActiva != null)
             {
-                lblPregunta.Text = encuestaActiva.Descripcion;
+                if (db.getActivas().Contains(encuestaActiva))
+                {
+                    lblPregunta.Text = encuestaActiva.Descripcion;
+                    lblError.Text = "";
+                    Session["Encuesta"] = encuestaActiva;
+                } else
+                {
+                    lblError.Text = "ERROR: SELECCIONE UNA ENCUESTA DE LA LISTA";
+                    Session["Encuesta"] = null;
+                }
             }
-            Session["Encuesta"] = encuestaActiva;
         }
     }
 }
