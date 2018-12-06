@@ -446,7 +446,7 @@ namespace LibClases.test
             DataTable dataTable = estadisticas.medianaPorEncuesta();
             Assert.AreEqual(dataTable.Rows[0][0], "Encuesta6");
             Assert.AreEqual(dataTable.Rows[0][1], 4);
-            //Comprobamos que si añadimos una nueva respuesta con un valor de 4 aumenta la media
+            //añadimos una nueva respuesta con un valor de 4
             db.getEncuesta("Encuesta1").setOpinion(4);
             db.getEncuesta("Encuesta1").setOpinion(4);
             db.getEncuesta("Encuesta1").setOpinion(4);
@@ -454,7 +454,7 @@ namespace LibClases.test
             dataTable = estadisticas.medianaPorEncuesta();
             Assert.AreEqual(dataTable.Rows[0][0], "Encuesta1");
             Assert.AreEqual(dataTable.Rows[0][1], 4);
-            //Comprobamos que al borrar una encuesta con respuestas se reduce la media
+            //borrar una encuesta top del ranking
             db.borrarEncuesta("Encuesta1");
             estadisticas = db.getEstadisticas();
             dataTable = estadisticas.medianaPorEncuesta();
